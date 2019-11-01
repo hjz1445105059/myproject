@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>点赞功能的动画</title>
+
+<style>
+@-webkit-keyframes donghua{
+	0%{ background-position:left;}
+	100%{ background-position:right;}	
+}
+
+@keyframes donghua{
+	0%{ background-position:left;}
+	100%{ background-position:right;}	
+}
+
+
+.out{ width:500px; border:1px solid #999; margin:50px auto; padding:20px;}
+.out .row{ border-bottom:1px solid #ccc;}
+.out .btn{ cursor:pointer; display:inline-block;}
+.out .btn i{ display:inline-block; width:100px; height:100px;  background:url(images/web_heart_animation.png); margin-right:6px; vertical-align:middle}
+
+.out .btn.on i{ -webkit-animation:donghua 1.5s forwards steps(28); animation:donghua 1.5s forwards steps(28); }
+
+.out .btn b{vertical-align:middle}
+
+
+</style>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script>
+
+$(function(){
+	$(".btn").click(function(){
+		
+		if($(this).attr("data-key")=="on"){		
+		
+			$(this).addClass("on");
+			var num=Number($(this).find("b").html())+1;
+			$(this).find("b").html(num);
+			$(this).attr("data-key","");
+		}else{
+			
+			$(this).removeClass("on");
+			var num=Number($(this).find("b").html())-1;
+			$(this).find("b").html(num);
+			$(this).attr("data-key","on");
+		}
+		
+		
+	})	
+})
+
+</script>
+
+
+</head>
+
+<body>
+
+<div class="out">
+	<div class="row">
+    	<h2>朋友圈的标题</h2>
+        <p>摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息</p>
+        <div class="btn" data-key="on">
+        	<i></i><b>11</b>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+    	<h2>朋友圈的标题</h2>
+        <p>摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息</p>
+        <div class="btn" data-key="on">
+        	<i></i><b>18</b>
+        </div>
+    </div>
+    
+    
+    
+    <div class="row">
+    	<h2>朋友圈的标题</h2>
+        <p>摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息</p>
+        <div class="btn" data-key="on">
+        	<i></i><b>25</b>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+    	<h2>朋友圈的标题</h2>
+        <p>摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息</p>
+        <div class="btn" data-key="on">
+        	<i></i><b>33</b>
+        </div>
+    </div>
+    
+    
+    <div class="row">
+    	<h2>朋友圈的标题</h2>
+        <p>摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息摘要信息</p>
+        <div class="btn" data-key="on">
+        	<i></i><b>44</b>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

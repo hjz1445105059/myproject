@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=t, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>qq弹窗</title>
+    <style>
+    body{
+        height: 970px;
+        margin: 0;
+        padding: 0;
+    }
+    .ad{
+    position: fixed;
+     bottom: 0;
+     right: 0;
+     width: 300px;
+     height:239px;
+     border: 2px solid black;
+     cursor: pointer;
+
+    }
+
+    .btn{
+    position: absolute;
+     top: 0;
+      right: 0;
+    }
+
+   .bg{
+    width:300px;
+   
+   }
+    
+    </style>
+</head>
+<body>
+  <iframe src="http://www.qq.com" frameborder="0" width="100%" height="100%"></iframe> 
+
+
+    <div class="ad" id="myAD">
+   <img id="myClose" class="btn" src="1.png" alt="">
+    <a href="#"><img class="bg" src="qqqq.jpg" alt=""></a>
+    </div>
+    <script>
+    var myAD = document.getElementById("myAD");
+    var myClose = document.getElementById("myClose");
+    var adHeight = 0;
+      myClose.onclick = function(){
+          myAD.style.display="none";
+      }
+    var show = setInterval(adShowFunc,10);
+    function adShowFunc(){
+     if(adHeight<239){
+        adHeight+=2;
+        myAD.style.height=adHeight+"px";
+    }else{
+   myAD.style.height="239px";
+   adHeight = 239;
+    clearInterval(show);
+    }
+    }
+    window.onload=function(){
+      show=setInterval(adShowFunc,10);
+    }
+    </script>
+</body>
+</html>

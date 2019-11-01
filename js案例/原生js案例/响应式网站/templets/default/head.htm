@@ -1,0 +1,61 @@
+<div id="top_bar">
+  <div class="container">
+    <div class="slogan adword">{dede:global.cfg_gg/}</div>
+    <div class="contact_info">
+      <p class="phone"><i class="fa fa-phone"></i><a href="tel:{dede:global.cfg_tel/}">{dede:global.cfg_tel/}</a></p>
+      <p class="mail"><i class="fa fa-envelope-o"></i><a href="mailto:{dede:global.cfg_email/}">{dede:global.cfg_email/}</a></p>
+    </div>
+  </div>
+</div>
+<div class="header_placeholder"></div>
+<header id="Header">
+  <div class="container">
+    <div class="column one">
+      <div class="addons">
+        <form  id="searchform" name="formsearch" action="{dede:global.cfg_cmsurl/}/plus/search.php">
+          <input type="hidden" name="kwtype" value="0" />
+          <a class="icon" href="#"><i class="fa fa-search"></i></a>
+          <input type="text" class="field keyword" value="" name="q" id="s" placeholder="输入关键字"/>
+          <input type="submit" class="submit" value="" style="display:none;"/>
+        </form>
+        <div class="social">
+          <ul>
+            <li><a target="_blank" href="{dede:global.cfg_weibo/}" title="微博"><i class="fa fa-weibo"></i></a></li>
+            <li><a target="_blank" href="{dede:global.cfg_qqweibo/}" title="腾讯微博"><i class="fa fa-tencent-weibo"></i></a></li>
+          </ul>
+        </div>
+        <!--<div class="language"> <a href="#"><i class="fa fa-globe"></i>语言切换</a>
+            <div class="language_select"> <span class="arrow"></span>
+              <ul id="menu-languages" class="">
+                <li class="menu-item"><a href="/">中文版</a></li>
+                <li class="menu-item"><a href="/">English</a></li>
+              </ul>
+            </div>
+          </div>--> 
+      </div>
+      <div class="logo">
+        <h1><a id="logo" href="/"><img class="scale-with-grid" src="/skin/images/logo.png" alt="{dede:global.cfg_webname/}"/></a></h1>
+      </div>
+      <nav id="menu" class="menu-main-menu-container">
+        <ul id="menu-main-menu" class="menu">
+          <li {dede:field name=typeid runphp="yes"}(@me=="")? @me=" class='Lev1 current-menu-item' ":@me="";{/dede:field}> <a href="/" class="menu1">网站首页 </a></li>
+          {dede:channelartlist typeid='top' currentstyle='current-menu-item'}
+          <li class="Lev1 menu-item-has-children {dede:field.currentstyle/}"> <a href="{dede:field name='typeurl'/}" class="menu1">{dede:field name='typename'/} 
+            {dede:field name=typeid runphp="yes"}
+            global $dsql;
+            $sql = "SELECT id From `dede_arctype` WHERE reid='@me' And ishidden<>1 order by sortrank asc limit 0, 100 ";
+            $row = $dsql->GetOne($sql);      
+            @me=is_array($row)?'<i class="fa fa-caret-down"></i>':'';
+            {/dede:field} </a>
+            <ul class="sub-menu dr-menu2">
+              {dede:channel type='son' noself='yes'}
+              <li class="menu-item Lev2  menu-item-has-children"> <a href="[field:typeurl/]" class="menu2">[field:typename/]</a> </li>
+              {/dede:channel}
+            </ul>
+          </li>
+          {/dede:channelartlist}
+        </ul>
+      </nav>
+      <a class="responsive-menu-toggle mmenu-btn" href="#mmenu"><i class="fa fa-reorder"></i></a> </div>
+  </div>
+</header>

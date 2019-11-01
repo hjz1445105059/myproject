@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>切换图片</title>
+    <style>
+        *{
+   padding: 0;
+   margin: 0;
+        }
+        .clearfix::after{
+            clear: both;
+            content:"";
+            display: table;
+        }
+      #left {
+          width: 140px;
+          float: left;
+
+      }
+      #left img{
+          width: 140px;
+
+      } 
+      
+   
+
+
+      #right {
+          margin-left: 10px;
+          float: left;
+          width: 440px;   
+      }
+     #right img{
+          width: 440px;
+          display: none;
+      }
+      #right .show{
+        display: inline-block;
+    }
+    </style>
+</head>
+<body>
+    <div class="clearfix" box>
+       <div id="left">
+           <img src="1.jpg" alt="">
+           <img src="2.jpg" alt="">
+           <img src="3.jpg" alt="">
+       </div>
+
+       
+        <div id="right">
+            <img src="1.jpg" alt="" class="show">
+            <img src="2.jpg" alt="">
+            <img src="3.jpg" alt="">
+        </div>
+    </div>
+  
+
+    <script>
+    var leftImgAry=document.getElementById("left").getElementsByTagName("img");
+    var rightImgAry=document.getElementById("right").getElementsByTagName("img");
+  
+
+  for(var i = 0;i<leftImgAry.length;i++){
+      leftImgAry[i].onmousemove = mouseOver;
+      leftImgAry[i].index=i;
+  }
+
+
+function mouseOver(){
+    console.log(this.index);
+    for(var i =0;i<rightImgAry.length;i++){
+        if(i==this.index){
+            rightImgAry[i].className="show";
+        }else{
+            rightImgAry[i].className="";
+        }
+    }
+}
+
+    </script>
+
+</body>
+</html>

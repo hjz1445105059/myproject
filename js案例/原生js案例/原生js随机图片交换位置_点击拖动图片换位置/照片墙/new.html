@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>sdsd</title>
+<style type="text/css">
+#wrap {
+	width:1200px;
+	height:400px;
+	border:2px solid #000;
+	margin:80px auto;
+}
+ul {
+	padding:0;
+	margin:0;
+	list-style:none;
+	position:relative;
+}
+ul li {
+	float:left;
+	margin:5px;
+}
+img {
+	vertical-align: top;
+	width:290px;
+	height:124px;
+}
+input {
+	position:relative;
+	top:-30px;
+}
+.active {
+	border:3px solid red;
+}
+</style>
+<script type="text/javascript" src="myCreat.js"></script>
+<script type="text/javascript" src="miaov.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	var wall = document.querySelector('.wall');
+	var imgArr = [
+		"img/img1.gif",
+		"img/img2.gif",
+		"img/img3.gif",
+		"img/img4.gif",
+		"img/img5.gif",
+		"img/img6.gif",
+		"img/img7.gif",
+		"img/img8.gif",
+		"img/img9.gif",
+		"img/img10.gif",
+		"img/img11.gif",
+		"img/img12.gif"
+	];
+	for (var i = 0; i < imgArr.length; i++) {
+		var li = document.createElement('li');
+		var img = new Image();
+		img.src = imgArr[i];
+		li.appendChild(img);
+		wall.appendChild(li);
+	}
+	var liPo = [];
+	var lis = wall.querySelectorAll('li');
+	var btn = document.querySelector('input');
+	var zIndex = 1;
+	
+	for (var i = 0; i < lis.length; i++) {
+		liPo[i] = {
+			top:lis[i].offsetTop,
+			left:lis[i].offsetLeft
+		}
+		lis[i].style.left = liPo[i].left+ "px";
+		lis[i].style.top = liPo[i].top + "px";
+	}
+	for (var i = 0; i < lis.length; i++) {
+		lis[i].style.margin = 0;
+		lis[i].style.position = "absolute";
+		lis[i].index = i;
+		as(lis[i]);
+	}
+	function as(ele){
+		var eleIndex = null; 
+		ele.addEventListener("mousedown",fnDown);
+		function fnDown(e){
+			zIndex++;
+			var disX = e.pageX - ele.offsetLeft;
+			var disY = e.pageY - ele.offsetTop;
+			document.addEventListener('mousemove',fnMove);
+			document.addEventListener("mouseup",fnUp);
+			function fnMove(e){
+				var max = Infinity;
+				var arr = [];
+				var elenow = null;
+				ele.style.left = e.pageX - disX + "px";
+				ele.style.top = e.pageY - disY + "px";
+				ele.style.zIndex = zIndex;
+				for (var i = 0; i < lis.length; i++) {
+					if(duang(ele,lis[i])){
+						if(ele != lis[i]){
+							arr.push(lis[i]);
+						}
+					}
+				}
+				arr.forEach((item,i)=>{
+					var a = item.offsetLeft - ele.offsetLeft;
+					var b = item.offsetTop - ele.offsetTop;
+					var min = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+					if(max > min){
+						max = min;
+						elenow = item;
+					}
+				})
+				if(eleIndex){//上一个碰撞元素
+					eleIndex.className = '';
+				}
+				if(elenow){//当前碰撞元素
+					elenow.className = 'active';
+				}
+				eleIndex = elenow;
+			}
+			function fnUp(){
+				if(eleIndex){
+					mTween(ele,{left:liPo[eleIndex.index].left,top:liPo[eleIndex.index].top},400,'linear');
+					mTween(eleIndex,{left:liPo[ele.index].left,top:liPo[ele.index].top},400,'linear');//互相交换位置，bug:索引没有变化，所以交换位置后再次交换位置会出问题，所以交换完位置后还需要将当前index值交换
+					var newIndex = eleIndex.index;
+					eleIndex.index = ele.index;
+					ele.index = newIndex;
+					eleIndex.className = "";
+				}
+
+				document.removeEventListener('mousemove',fnMove);
+				document.removeEventListener("mouseup",fnUp);
+				
+			}
+			e.preventDefault();
+
+			function duang(obj1,obj2){
+			    var l1 = obj1.offsetLeft;
+			    var t1 = obj1.offsetTop;
+			    var b1 = t1 + obj1.offsetHeight;
+			    var r1 = l1 + obj1.offsetWidth;
+			    
+			    var l2 = obj2.offsetLeft;
+			    var t2 = obj2.offsetTop;
+			    var b2 = t2 + obj2.offsetHeight;
+			    var r2 = l2 + obj2.offsetWidth;
+			    
+			    if(r1 < l2 || b1 < t2 || l1 > r2 || t1 > b2){
+			        return false;
+			    }else{
+			        return true;
+			    }
+			}
+		}
+		
+	}
+
+
+
+
+
+	//点击换位置===========================
+	btn.onclick = function(){
+		liPo.sort(function(a,b){
+			return 0.5 - Math.random();
+		});
+		for (var i = 0; i < lis.length; i++) {
+			mTween(lis[i],{left:liPo[i].left,top:liPo[i].top},500,"linear");
+		}
+	}
+	
+	
+};
+</script>
+</head>
+<body>
+
+<div id="wrap">
+	<ul class="wall"></ul>
+	<input type="button" value="随机">
+</div>
+</body>
+</html>

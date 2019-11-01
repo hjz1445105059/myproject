@@ -1,0 +1,247 @@
+<HTML>
+<HEAD>
+<TITLE>撞击游戏</TITLE>
+
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<STYLE type=text/css>A:link {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #fffff0; TEXT-DECORATION: none
+}
+</STYLE>
+
+<script type="text/javascript">
+<!-- BreakOut -
+n6=(document.getElementById&&!document.all);
+n4=(document.layers);
+ie=(document.all);
+now=null;
+counter=null;
+function Stopwatch(){ 
+var myTime=new Date(); 
+return((myTime.getTime() - counter)/1000); 
+}
+function getSecs(){
+var tSecs = Math.round(Stopwatch()); 
+var iSecs = tSecs % 60;
+var iMins = Math.round((tSecs-30)/60);   
+var sSecs ="" + ((iSecs > 9) ? iSecs : "0" + iSecs);
+var sMins ="" + ((iMins > 9) ? iMins : "0" + iMins);
+var tme= sMins+":"+sSecs;
+document.form1.count.value=tme;
+}
+d=(n4||ie)?'document.':'document.getElementById("';
+a=(n4||n6)?'':'all.';
+n6r=(n6)?'")':'';
+s=(n4)?'':'.style';
+blocksleft=15;
+vy=(n4)?'show':'visible';
+vn=(n4)?'hide':'hidden';
+blocks=15;//number of blocks
+ballsleft=3;
+displaycolors=new Array('#ff0000','#00aa00','#0000ff','#cc00cc','#000000','#eee000')
+blockcolors=new Array('#ff0000','#00aa00','#0000ff','#cc00cc','#eee000')
+spread=new Array();
+B=4;//Ball size.
+BD=50;//Block size.
+D=270;//Initial ball direction.
+Y=385;
+X=128;
+preY=0;
+preX=0;
+Q=0;
+ts=new Array();
+bs=new Array();
+ls=new Array();
+rs=new Array();
+ty=new Array();
+tx=new Array();
+by=new Array();
+bx=new Array();
+ly=new Array();
+lx=new Array();
+ry=new Array();
+rx=new Array();
+t=null;
+Top=1;
+Left=0;
+ini=-50;
+for (i=0; i < blocks; i++){
+spread[i] = ini+=51;
+var col1=Math.floor(Math.random()*blockcolors.length);
+var col2=Math.floor(Math.random()*blockcolors.length);
+var col3=Math.floor(Math.random()*blockcolors.length);
+var col4=Math.floor(Math.random()*displaycolors.length);
+if (ie||n6)
+document.write('<div id="G'+i+'" style="position:absolute;top:'+Top+'px;left:'+spread[i]+'px;height:'+BD+'px;width:'+BD+';background:'+blockcolors[col1]+';visibility:'+vy+'"></div>');
+if (n4)
+document.write('<layer name=G'+i+' top='+Top+' left='+spread[i]+' width='+BD+' height='+BD+' bgcolor='+blockcolors[col1]+' visibility='+vy+'></layer>');
+if (i == 4){Top+=51;ini=-50;}
+if (i == 9){Top+=51;ini=-50;}
+}
+TW=(n4)?198:(ie)?246:248;
+TH=(n4)?438:437;//?
+win="<font face=Verdana color=#00bb00 size=6>你赢了</font>";
+lose="<font face=Verdana color=#ff0000 size=6>你输了</font>";
+document.write("<table height="+TH+" width=398 cellpadding=0 cellspacing=0 border=0><tr valign=top><td width="+TW+">&nbsp;</td><td align=center bgcolor="+displaycolors[col4]+">");
+document.write("<font face=Verdana size=5 color=#ffffff>撞击游戏</font>");
+document.write("<form name=form1><font face=Verdana size=2 color=#ffffff>小球速度</font><br><select name='amount'>");
+document.write("<option value=5 selected>5");
+for (i=10; i < 21; i+=5)
+{document.write("<option value="+i+">"+i)}
+document.write("</select><p>"
++"<font face=Verdana size=2 color=#ffffff>用时</font><br><input name=count type=text size=5 value='00:00'><p>"
++"<font face=Verdana size=2 color=#ffffff>剩余砖块</font><br><input name=lft type=text size=5 value='15'><p>"
++"<font face=Verdana size=2 color=#ffffff>剩余小球</font><br><input name=bll type=text size=5 value='3'><p>"
++"&nbsp;<br><input type='reset' value='重新开始' onClick='window.location.reload()'></form><p>&nbsp;<p>&nbsp;<br>"
++"</td></tr></table>");
+
+if (ie||n6){
+document.write("<div id='info'style='position:absolute;top:182px;left:60px'></div>");
+document.write('<div id=ball style="position:absolute;top:385px;left:128px;height:4px;width:4px;font-size:4px;background:#000000"></div>');
+document.write("<div id='go'style='position:absolute;top:340px;left:108px'><form><input type=button value='开始' onClick='now=new Date();counter=now.getTime();Move();this.style.visibility=\"hidden\"'></form></div>");
+document.write("<div id='paddle' style='position:absolute;top:413px;left:110px;width:40px;height:2px;font-size:2px;background:#ff0000'></div>");
+}
+if (n4){
+document.write("<layer name='info' left=62 top=182></layer>");
+document.write('<layer name=ball top=385 left=128 width=4 height=4 bgcolor=#000000></layer>');
+document.write("<layer name='go' left=108 top=340><form><input type=button value='Start' onClick='now=new Date();counter=now.getTime();Move()'></form></layer>");
+document.write("<layer name='paddle' left=110 top=412 width=40 height=2 bgcolor=#ff0000></layer>");
+}
+xpos=0;
+temppaddle=eval(d+a+"paddle"+n6r+s);
+(n4||n6)?window.captureEvents(Event.MOUSEMOVE):0;
+function Mouse(evnt){
+xpos = (n4||n6)?evnt.pageX-20:event.x-20;
+if (xpos > 0 && xpos < 218) temppaddle.left=xpos;
+}
+(n4)?window.onMouseMove=Mouse:document.onmousemove=Mouse;
+function Move(){
+t=setTimeout('Move()',30);
+getSecs();
+if(n4)document.go.visibility='hide';
+getSpeed=document.form1.amount;
+S=getSpeed.options[getSpeed.selectedIndex].value;
+H=(n4||n6)?window.innerHeight:document.body.clientHeight;
+W=(n4||n6)?window.innerWidth:document.body.clientWidth;
+y=S*Math.sin(D*Math.PI/180);
+x=S*Math.cos(D*Math.PI/180);
+if (D < 0) D+=360;
+Y+=y;
+X+=x;
+VB=180-D;
+HB=0-D;
+E=(n4)?257:257;
+if(Y<1){Y=1;D=HB}  
+if(Y+B>H){Y=H-1-B;D=HB}  
+if(X<1){X=1;D=VB} 
+if(X+B>E){X=E-1-B;D=VB} 
+if((Y<1)&&(X<1)){Y=1;X=1;D=45}
+if((Y<1)&&(X+B>E)){Y=1;X=E-B;D=135}
+if((Y+B>H)&&(X<1)){Y=H-B;X=1;D=315}
+if((Y+B>H)&&(X+B>E)){Y=H-B;X=E-B;D=225}
+py=(ie)?temppaddle.pixelTop:parseInt(temppaddle.top);
+px=(ie)?temppaddle.pixelLeft:parseInt(temppaddle.left);
+if ((Y>=py)&&(X+B>=px)&&(X<=px+20)){Y=py-B;D=225+Math.random()*45}
+if ((Y>=py)&&(X+B>=px+20)&&(X<=px+40)){Y=py-B;D=270+Math.random()*45}
+if (Y>=py){Y=155;X=128;D=90;ballsleft--}
+for (i=0; i < blocks; i++){
+block=eval(d+a+"G"+i+n6r+s);
+TOP=(!ie)?parseInt(block.top):block.pixelTop;
+BOTTOM=(!ie)?parseInt(block.top)+BD:block.pixelTop+BD;
+LEFT=(!ie)?parseInt(block.left):block.pixelLeft;
+RIGHT=(!ie)?parseInt(block.left)+BD:block.pixelLeft+BD;
+
+if((block.visibility==vy)&&(Y+B>TOP)&&(Y<BOTTOM)&&(X+B>LEFT)&&(X<RIGHT)){
+blocksleft--;
+ay=Y+S*Math.sin(D*Math.PI/180);                
+ax=X+S*Math.cos(D*Math.PI/180);
+dify = Y-ay;
+difx = X-ax;
+preY=Y+dify;
+preX=X+difx;
+Y=Y+dify;
+X=X+difx;
+ty[i]=(!ie)?parseInt(block.top) - (preY+2):block.pixelTop - (preY+2);
+tx[i]=(!ie)?parseInt(block.left)+(BD/2):block.pixelLeft+(BD/2);
+ts[i]=Math.sqrt(tx[i]*tx[i] + ty[i]*ty[i]);
+by[i]=(!ie)?parseInt(block.top)+BD - (preY+2):(block.pixelTop+BD) - (preY+2);
+bx[i]=(!ie)?parseInt(block.left)+(BD/2) - (preX+2):(block.pixelLeft+(BD/2)) - (preX+2);
+bs[i]=Math.sqrt(by[i]*by[i] + bx[i]*bx[i]);
+ly[i]=(!ie)?parseInt(block.top)+(BD/2) - (preY+2):(block.pixelTop+(BD/2)) - (preY+2);
+lx[i]=(!ie)?parseInt(block.left) - (preX+2):(block.pixelLeft) - (preX+2);
+ls[i]=Math.sqrt(lx[i]*lx[i] + ly[i]*ly[i]);
+ry[i]=(!ie)?parseInt(block.top)+(BD/2) - (preY+2):(block.pixelTop+(BD/2)) - (preY+2);
+rx[i]=(!ie)?parseInt(block.left)+BD - (preX+2):(block.pixelLeft+BD) - (preX+2);
+rs[i]=Math.sqrt(rx[i]*rx[i] + ry[i]*ry[i]);
+if((ts[i]==ls[i])&&(ts[i]&&ls[i]<rs[i]&&bs[i])){Y=TOP-B;X=LEFT-B;D=225;block.visibility=vn}
+if((ts[i]==rs[i])&&(ts[i]&&rs[i]<ls[i]&&bs[i])){Y=TOP-B;X=RIGHT;D=315;block.visibility=vn}
+if((bs[i]==ls[i])&&(bs[i]&&ls[i]<ts[i]&&rs[i])){Y=BOTTOM;X=LEFT-B;D=135;block.visibility=vn}
+if((bs[i]==rs[i])&&(bs[i]&&rs[i]<ls[i]&&ts[i])){Y=BOTTOM;X=RIGHT;D=45;block.visibility=vn}
+if ((ls[i] < ts[i]) && (ls[i] < rs[i]) && (ls[i] < bs[i])){
+Q=LEFT-(X-B);
+Y=Y+Q*Math.sin(D*Math.PI/180);     
+X=LEFT-B;
+block.visibility=vn;
+D=VB;
+}
+if ((ts[i] < ls[i]) && (ts[i] < rs[i]) && (ts[i] < bs[i])){
+Q=TOP-(Y-B);
+Y=TOP-B;    
+X=X+Q*Math.cos(D*Math.PI/180);
+block.visibility=vn;
+D=HB;
+}
+if ((bs[i] < ls[i]) && (bs[i] < rs[i]) && (bs[i] < ts[i])){
+Q=BOTTOM-Y;
+Y=BOTTOM;    
+X=X-Q*Math.cos(D*Math.PI/180);
+block.visibility=vn;
+D=HB;
+}
+if ((rs[i] < ts[i]) && (rs[i] < ls[i]) && (rs[i] < bs[i])){
+Q=RIGHT-X;
+Y=Y-Q*Math.sin(D*Math.PI/180);     
+X=RIGHT;
+block.visibility=vn;
+D=VB;
+}
+}
+}
+b=eval(d+a+"ball"+n6r+s);
+b.top=Y;
+b.left=X;
+document.form1.lft.value=blocksleft;
+document.form1.bll.value=ballsleft;
+if (ballsleft<0){
+clearTimeout(t);
+document.form1.bll.value='0';
+if (n4){
+tempinfo.document.write(lose)
+tempinfo.document.close();
+}
+else{ 
+tempinfo.innerHTML=lose;
+}
+}
+tempinfo=eval(d+a+"info"+n6r);
+if (blocksleft<=0){
+clearTimeout(t);
+}
+}
+//-->
+</script>
+
+
+</head>
+<body>
+
+</body>
+</html>

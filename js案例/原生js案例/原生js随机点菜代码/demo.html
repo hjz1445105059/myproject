@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			*{padding: 0;margin: 0;}
+			.meunbox{width: 500px;height:400px;padding: 20px; overflow: hidden;margin: 150px auto;background-color: papayawhip;border: 1px solid #ddd;border-radius: 4px;box-shadow: 0 0 5px 3px rgba(0,0,0,.2);}
+			h2{font-size: 18px;font-weight: bold;text-align: center;line-height: 40px;}
+			button{display: block;width: 140px;height: 40px;text-align: center;line-height: 38px;font-size: 20px;color: #fff;background: peru;border: none;outline: none; border-radius: 3px;cursor: pointer; margin: 30px auto;}
+			.menu{width: 480px;height: 100px;padding: 10px; border: 1px solid #bbb;border-radius: 4px;}
+			.menu span{line-height: 30px;}
+			p{text-align: center;color: red;width: 100px;height: 40px;line-height: 40px; margin: 20px auto;}
+		</style>
+		<script type="text/javascript">
+			window.onload = function(){
+				var btn = document.getElementById('btn');
+				var cm = document.getElementById('cm');	
+//				获取html中的菜单
+				var menu = document.getElementsByTagName('span');
+				var menuList = [];
+//				遍历菜单逐个加到新菜单menuList数组中
+				for(var i=0;i<menu.length;i++){
+					menuList.push(menu[i].innerHTML);
+				}	
+				
+				btn.onclick = function(){
+					var num = Math.floor(Math.random()*(menuList.length-1+1-0)+0);
+					cm.innerHTML = menuList[num];
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="meunbox">
+			<h2>还在纠结今天中午吃什么？</h2>
+			<h2>请看菜单</h2>
+			<h2>点击点菜按钮，随机选取菜品，让你不再纠结</h2>
+			<div class="menu">
+				<span>油泼面</span>
+				<span>酸辣土豆丝</span>
+				<span>回锅肉</span>
+				<span>地锅鸡</span>
+				<span>辣子鸡</span>
+				<span>小油菜</span>
+				<span>木桶饭</span>
+				<span>酸辣粉丝</span>
+				<span>青椒肉丝</span>
+				<span>红烧肉</span>
+				<span>清蒸鱼</span>
+				<span>干煸西蓝花</span>
+				<span>牛柳</span>
+				<span>糖醋排骨</span>
+				<span>莴苣</span>
+				<span>蚂蚁上树</span>
+				<span>香菇炖鸡</span>
+				<span>口水鸡</span>
+				<span>烤鸭</span>
+				<span>豆腐</span>
+				<span>山药炒肉片</span>
+			</div>
+			<button id="btn">点菜</button>
+			<p id="cm"></p>
+		</div>
+	</body>
+</html>

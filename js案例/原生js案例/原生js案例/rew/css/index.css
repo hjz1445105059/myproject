@@ -1,0 +1,15 @@
+body{
+	margin: 0px;
+	padding: 0px;
+}
+#tk{
+	background: #f0f1ee;
+	width: 600px;
+	height: 600px;
+	border: 1px solid rosybrown;	
+}
+#shell_1{
+	position:absolute;
+	z-index: 3;
+}
+
